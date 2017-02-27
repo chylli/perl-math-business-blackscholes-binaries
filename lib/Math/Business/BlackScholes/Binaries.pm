@@ -2,7 +2,7 @@ package Math::Business::BlackScholes::Binaries;
 use strict;
 use warnings;
 
-our $VERSION = '1.22';
+our $VERSION = '1.23';
 
 my $SMALLTIME = 1 / (60 * 60 * 24 * 365);    # 1 second in years;
 
@@ -602,9 +602,9 @@ sub get_stability_constant_pelsser_1997 {
             . "be 1, 2 or 3. Given $p.";
     }
 
-    my $h       = log($U / $D);
-    my $x       = log($S / $D);
-    my $mu_new  = $mu - (0.5 * $sigma * $sigma);
+    my $h      = log($U / $D);
+    my $x      = log($S / $D);
+    my $mu_new = $mu - (0.5 * $sigma * $sigma);
 
     my $numerator = $MIN_ACCURACY_UPORDOWN_PELSSER_1997 * exp(1.0 - $mu_new * (($eta * $h) - $x) / ($sigma * $sigma));
     my $denominator = (exp(1) * (Math::Trig::pi + $p)) + (max($mu_new * (($eta * $h) - $x), 0.0) * Math::Trig::pi / ($sigma**2));
@@ -653,7 +653,7 @@ sub ot_down_ko_up_pelsser_1997 {
     my ($S, $U, $D, $t, $r_q, $mu, $sigma, $w) = @_;
 
     my $mu_new = $mu - (0.5 * $sigma * $sigma);
-    my $x      = log($S / $D);
+    my $x = log($S / $D);
 
     return exp(-$mu_new * $x / ($sigma * $sigma)) * common_function_pelsser_1997($S, $U, $D, $t, $r_q, $mu, $sigma, $w, 0);
 }
@@ -681,7 +681,6 @@ sub get_min_iterations_pelsser_1997 {
     } elsif ($accuracy <= 0) {
         $accuracy = $MIN_ACCURACY_UPORDOWN_PELSSER_1997;
     }
-
 
     my $it_up = _get_min_iterations_ot_up_ko_down_pelsser_1997($S, $U, $D, $t, $r_q, $mu, $sigma, $w, $accuracy);
     my $it_down = _get_min_iterations_ot_down_ko_up_pelsser_1997($S, $U, $D, $t, $r_q, $mu, $sigma, $w, $accuracy);
@@ -761,7 +760,7 @@ sub _get_min_iterations_ot_up_ko_down_pelsser_1997 {
 sub _get_min_iterations_ot_down_ko_up_pelsser_1997 {
     my ($S, $U, $D, $t, $r_q, $mu, $sigma, $w, $accuracy) = @_;
 
-    my $h      = log($U / $D);
+    my $h = log($U / $D);
     my $mu_new = $mu - (0.5 * $sigma * $sigma);
 
     $accuracy = $accuracy * exp($mu_new * $h / ($sigma * $sigma));
